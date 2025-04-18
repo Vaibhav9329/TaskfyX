@@ -37,6 +37,9 @@ public class JwtProvider {
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignKey())
+
+
+
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -58,4 +61,7 @@ public class JwtProvider {
     }
 
 
+    public String getEmailFromToken(String jwt) {
+        return null;
+    }
 }

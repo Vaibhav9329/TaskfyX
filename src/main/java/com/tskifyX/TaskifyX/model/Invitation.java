@@ -17,8 +17,14 @@ public class Invitation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    // through token user get invite / using the token user can join the team
     private String token;
+
+    //which user you want to invite
     private String email;
+
+    //which project you want to invite
     private Long projectId;
 
 }

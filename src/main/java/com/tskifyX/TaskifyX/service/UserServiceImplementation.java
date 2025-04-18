@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -29,7 +30,8 @@ public class UserServiceImplementation implements UserService {
     private CustomUserDetailsService customeUseDetailsImp;
 
     @Autowired
-    private JwtProvider jwtProvider;
+    private  JwtProvider jwtProvider;
+
     private final UserRepository userRepository;
 
 
@@ -74,6 +76,36 @@ public class UserServiceImplementation implements UserService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 
+    }
+
+    @Override
+    public User findUserProfileByJwt(String jwt) throws Exception {
+        String email = jwtProvider.getEmailFromToken(jwt);
+        return findUserByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) throws Exception {
+       Optional<User> user = userRepository.findByEmail(email);
+       if(user == null){
+           throw new Exception("user not found");
+       }
+        return user;
+    }
+
+    @Override
+    public User findUserById(User userId) throws Exception {
+     User optionalUser = UserRepository.findUserById(userId);
+      if(optionalUser == null){
+          throw new Exception("user not found");
+      }
+        return optionalUser;
+    }
+
+    @Override
+    public User updateUsersProject(User user, int number) {
+        user.setProjectSize(user.getProjectSize()+number);
+        return userRepository.save(user);
     }
 
 }
