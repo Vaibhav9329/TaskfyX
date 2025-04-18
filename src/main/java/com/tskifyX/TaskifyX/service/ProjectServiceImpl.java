@@ -123,7 +123,7 @@ public class ProjectServiceImpl implements ProjectSercvice {
     }
 
     @Override
-    public List<Project> searchProject(String keyword, User user) throws Exception {
+    public List<Project> searchProject(String keyword, Optional<User> user) throws Exception {
 
         return projectRepository.findByNameContainingAndTeamContains(keyword,user);
     }

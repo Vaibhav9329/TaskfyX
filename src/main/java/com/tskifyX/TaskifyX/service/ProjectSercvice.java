@@ -5,6 +5,7 @@ import com.tskifyX.TaskifyX.model.Project;
 import com.tskifyX.TaskifyX.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProjectSercvice {
     Project createProject(Project project, User user)throws Exception;
@@ -24,5 +25,5 @@ public interface ProjectSercvice {
 
     Chat getChatByProject(Long project)throws Exception;
 
-    List<Project> searchProject(String keyword,User user)throws Exception;
+    List<Project> searchProject(String keyword, Optional<User> user)throws Exception;
 }

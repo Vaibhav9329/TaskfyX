@@ -10,7 +10,7 @@ public interface UserService {
     User registerUser(User user);
     ResponseEntity<?> login(String email, String password);
 
-    User findUserProfileByJwt(String jwt)  throws Exception;
+    Optional<User> findUserProfileByJwt(String jwt)  throws Exception;
 
     Optional<User> findUserByEmail(String email)throws Exception;
 

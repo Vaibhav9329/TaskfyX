@@ -21,22 +21,22 @@ public class ProjectController {
     private ProjectSercvice projectSercvice;
 
     @Autowired
-    private UserService  userService;
+    private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<Project>>getProjects(
+    public ResponseEntity<List<Project>> getProjects(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String tag,
             @RequestParam("Authorization") String jwt
     ) throws Exception {
         Optional<User> user = userService.findUserProfileByJwt(jwt);
-        List<Project> projects = projectSercvice.getProjectByTeam(user.orElse(null),category,tag);
+        List<Project> projects = projectSercvice.getProjectByTeam(user.orElse(null), category, tag);
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<Project>getProjectsById(
+    public ResponseEntity<Project> getProjectsById(
             @PathVariable Long projectId,
             @RequestParam("Authorization") String jwt
     ) throws Exception {
@@ -47,7 +47,7 @@ public class ProjectController {
 
 
     @PostMapping
-    public ResponseEntity<Project>createProject(
+    public ResponseEntity<Project> createProject(
             @RequestParam("Authorization") String jwt,
             @RequestBody Project project
     ) throws Exception {
@@ -57,37 +57,38 @@ public class ProjectController {
     }
 
     @PatchMapping("/{projectId")
-    public ResponseEntity<Project>updateProject(
+    public ResponseEntity<Project> updateProject(
             @PathVariable Long projectId,
             @RequestParam("Authorization") String jwt,
             @RequestBody Project project
     ) throws Exception {
         Optional<User> user = userService.findUserProfileByJwt(jwt);
         Project updatedproject = projectSercvice.udateProject(project, projectId);
-        return new ResponseEntity<>(updatedproject , HttpStatus.OK);
+        return new ResponseEntity<>(updatedproject, HttpStatus.OK);
     }
 
     @DeleteMapping("/{projectId")
-    public ResponseEntity<MessageResponse>deleteProject(
+    public ResponseEntity<MessageResponse> deleteProject(
             @PathVariable Long projectId,
             @RequestParam("Authorization") String jwt
 
     ) throws Exception {
         Optional<User> user = userService.findUserProfileByJwt(jwt);
         projectSercvice.deleteProject(projectId, user.get().getId());
-        MessageResponse res =  new MessageResponse("project deleted successfully");
+        MessageResponse res = new MessageResponse("project deleted successfully");
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 
     @GetMapping("/search")
-    public ResponseEntity<List<Project>>searchProjects(
+    public ResponseEntity<List<Project>> searchProjects(
             @RequestParam(required = false) String keyword,
 
             @RequestParam("Authorization") String jwt
     ) throws Exception {
-        User user = userService.findUserProfileByJwt(jwt);
-        List<Project> projects = projectSercvice.searchProject(keyword,user);
+        Optional<User> user = userService.findUserProfileByJwt(jwt);
+        List<Project> projects = projectSercvice.searchProject(keyword, user);
         return new ResponseEntity<>(projects, HttpStatus.OK);
 
     }
+}
